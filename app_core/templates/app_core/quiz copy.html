@@ -1,0 +1,22 @@
+<!-- quiz.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Other head elements -->
+    <script src="https://unpkg.com/htmx.org"></script>
+</head>
+<body>
+
+<h1>Quiz</h1>
+
+<form method="post" action="{% url 'submit_quiz' %}">
+    {% csrf_token %}
+    <div id="questions-container">
+        {% include 'app_core/question_list.html' %}
+    </div>
+
+    <button type="submit">Submit Quiz</button>
+</form>
+
+</body>
+</html>

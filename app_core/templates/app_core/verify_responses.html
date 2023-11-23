@@ -1,0 +1,27 @@
+<!-- verify_responses.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... head content ... -->
+</head>
+<body>
+    <h1>Verify Your Responses</h1>
+    {% for response in responses %}
+        <div>
+            <h2>{{ response.question.text }}</h2>
+            <p>Selected Option: {{ response.selected_option.custom_text }}</p>
+            {% if response.additional_data.text_input %}
+                <p>Text Input: {{ response.additional_data.text_input }}</p>
+            {% endif %}
+            {% if response.additional_data.file_upload %}
+                <p>File Uploaded: <a href="{{ response.additional_data.file_upload.url }}">Download</a></p>
+            {% endif %}
+            {% if response.additional_data.date_picker %}
+                <p>Date Selected: {{ response.additional_data.date_picker }}</p>
+            {% endif %}
+            <!-- Repeat for other triggers like yes/no dropdowns, etc. -->
+        </div>
+    {% endfor %}
+    <!-- Add a button/link to finalize submission or go back to quiz -->
+</body>
+</html>

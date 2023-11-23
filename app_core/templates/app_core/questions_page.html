@@ -1,0 +1,63 @@
+<!-- questions_page.html -->
+<!-- questions_page.html -->
+
+{% for question in questions %}
+    <div>
+        <h2>{{ question.text }}</h2>
+        {% for option in question.options.all %}
+            <div>
+                <input type="radio" 
+                       name="question_{{ question.id }}" 
+                       value="{{ option.id }}"
+                       hx-get="{% url 'load_additional_inputs' question.id option.id %}"
+                       hx-target="#additional-inputs-{{ question.id }}"
+                       hx-trigger="change">
+                <label for="question_{{ question.id }}_{{ option.id }}">
+                    {% if option.option_type == 'CUSTOM' %}
+                        {{ option.custom_text }}
+                    {% else %}
+                        {{ option.get_option_type_display }}
+                    {% endif %}
+                </label>
+            </div>
+        {% endfor %}
+        <div id="additional-inputs-{{ question.id }}"></div>
+    </div>
+{% endfor %}
+
+
+
+
+
+<!-- Pagination Links -->
+<div class="pagination">
+  {% if questions.has_previous %}
+  <a
+    href="{% url 'load_questions_page' %}?page={{ questions.previous_page_number }}"
+    hx-get="{% url 'load_questions_page' %}?page={{ questions.previous_page_number }}"
+    hx-target="#questions-container"
+    >Previous</a
+  >
+  {% endif %} {% for num in questions.paginator.page_range %}
+  <a
+    href="{% url 'load_questions_page' %}?page={{ num }}"
+    hx-get="{% url 'load_questions_page' %}?page={{ num }}"
+    hx-target="#questions-container"
+    >{{ num }}</a
+  >
+  {% endfor %} {% if questions.has_next %}
+  <a
+    href="{% url 'load_questions_page' %}?page={{ questions.next_page_number }}"
+    hx-get="{% url 'load_questions_page' %}?page={{ questions.next_page_number }}"
+    hx-target="#questions-container"
+    >Next</a
+  >
+  {% endif %}
+</div>
+
+
+<script>
+    function getCsrfToken() {
+        return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    }
+    </script>

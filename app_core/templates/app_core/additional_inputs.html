@@ -1,0 +1,36 @@
+<!-- additional_inputs.html -->
+
+{% if option.triggers_text_input %}
+    <input type="text" name="text_input_{{ option.id }}" 
+           {% if option.mandatory %} required {% endif %}>
+{% endif %}
+
+{% if option.triggers_file_upload %}
+    <input type="file" name="file_upload_{{ option.id }}" 
+           {% if option.mandatory %} required {% endif %}>
+{% endif %}
+
+{% if option.triggers_date_picker %}
+    <input type="date" name="date_picker_{{ option.id }}" 
+           {% if option.mandatory %} required {% endif %}>
+{% endif %}
+
+{% if option.triggers_yes_dropdown and option.option_type == 'YES' %}
+    <select name="yes_dropdown_{{ option.id }}" 
+            {% if option.mandatory %} required {% endif %}>
+        <option value="">Choose an option</option>
+        {% for dropdown_option in option.question.yes_dropdown_options.all %}
+            <option value="{{ dropdown_option.id }}">{{ dropdown_option.option_text }}</option>
+        {% endfor %}
+    </select>
+{% endif %}
+
+{% if option.triggers_no_dropdown and option.option_type == 'NO' %}
+    <select name="no_dropdown_{{ option.id }}" 
+            {% if option.mandatory %} required {% endif %}>
+        <option value="">Choose an option</option>
+        {% for dropdown_option in option.question.no_dropdown_options.all %}
+            <option value="{{ dropdown_option.id }}">{{ dropdown_option.option_text }}</option>
+        {% endfor %}
+    </select>
+{% endif %}
